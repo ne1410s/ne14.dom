@@ -1,7 +1,13 @@
-var ne14 = require('../dist/index');
+require(['../dist/index'], function (ne14) {
 
-((window) => {
+    ((window) => {
 
-    console.log(ne14);
+        console.log(ne14.Dom.q2a('p'));
 
-})(window);
+        console.log(ne14.Dom.q2f('p'));
+
+    
+    })(window);
+});
+
+

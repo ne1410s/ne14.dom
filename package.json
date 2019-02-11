@@ -11,6 +11,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
+    "dev": "npx tsc -w",
     "test": "npm run clean && npm run build && mocha --exit",
     "publish-patch": "npm version patch && npm run test && npm publish --access public"
   },
