@@ -2,15 +2,17 @@
   "name": "@ne1410s/dom",
   "version": "0.0.1",
   "description": "ES DOM Utilities",
-  "main": "./dist/ne14.dom.js",
-  "module": "./dist/ne14.dom.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
-  "types": "./dist/ne14.dom.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "rollup -cm && mocha --exit",
-    "bundle": "rollup -c"
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "test": "npm run clean && npm run build && mocha --exit",
+    "publish-patch": "npm version patch && npm run test && npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -29,10 +31,8 @@
   "homepage": "https://github.com/ne1410s/ne14.dom#readme",
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^5.9.0",
     "mocha": "^5.2.0",
-    "rollup": "^0.67.1",
-    "rollup-plugin-typescript2": "^0.18.0",
+    "rimraf": "^2.6.2",
     "typescript": "^3.1.6"
   }
 }

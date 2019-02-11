@@ -1,13 +1,8 @@
 import { Pi } from './constants';
 
-export default class MyTest {
+export abstract class Dom {
     
-    public area: number;
-    public circumference: number;
-
-    constructor(public radius: number) {
-        this.area = Pi * this.radius * this.radius;
-        this.circumference = Pi * this.radius * 2;
+    public static circumference(radius: number) {
+        return 2 * Pi * radius;
     }
-
 }

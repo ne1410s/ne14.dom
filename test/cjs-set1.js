@@ -1,14 +1,11 @@
 const expect = require('chai').expect;
-const MyTest = require('../dist/ne14.dom');
+const ne14 = require('../dist/index');
 
 describe('#thingamy', () => {
 
     it('1.1.1', () => {
-
-        let test = new MyTest(3);
-        console.log(test);
-
-        expect(test.area).to.equal(3.141592 * 9);
+        var sut = ne14.Dom.circumference(4.5);
+        expect(sut).to.equal(3.141592 * 9);
     });
 
 });
