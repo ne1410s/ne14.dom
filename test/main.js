@@ -1,10 +1,13 @@
-require(['../dist/index'], function (ne14) {
+require(['../dist/index'], function (dom) {
 
     ((window) => {
 
-        console.log(ne14.Dom.q2a('p'));
+        console.log(dom.Query.array('p'));
 
-        console.log(ne14.Dom.q2f('p'));
+        var p = dom.Query.first('p');
+        console.log(p);
+
+        dom.Control.toggleClass(p, 'woot');
 
     
     })(window);
