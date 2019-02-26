@@ -2,7 +2,20 @@
 <html>
 <head>
     <title>Test</title>
-    <script data-main="main" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    <script src="../dist/index.js"></script>
+    <script>
+
+        window.addEventListener('load', function() {
+            
+            console.log(Query.array('p'));
+
+            var p = Query.first('p');
+            console.log(p);
+
+            Control.toggleClass(p, 'woot');
+        });
+
+    </script>
 </head>
 <body>
     <h1>Title</h1>
