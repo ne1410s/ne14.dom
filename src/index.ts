@@ -1,4 +1,4 @@
-abstract class ne14Dom {
+export class ne14Dom {
 
   /**
    * Returns an array of elements that match a css-style query.
