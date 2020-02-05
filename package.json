@@ -1,6 +1,6 @@
 {
   "name": "ne14dom",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "Lightweight ES5 script designed for inclusion in html and svg to simplify DOM operations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
