@@ -1,39 +1,25 @@
 {
-  "name": "@ne1410s/dom",
-  "version": "0.0.4",
-  "description": "ES DOM Utilities",
+  "name": "ne14dom",
+  "version": "1.0.0",
+  "description": "Lightweight ES5 script designed for inclusion in html and svg to simplify DOM operations",
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "files": [
-    "dist",
-    "src"
-  ],
   "types": "dist/index.d.ts",
+  "module": "dist/index.es.js",
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
     "dev": "npx tsc -w",
     "publish-patch": "npm version patch && npm publish --access public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ne1410s/ne14.dom.git"
-  },
   "keywords": [
-    "ES",
+    "ES5",
     "DOM",
-    "Utilities"
+    "Utils"
   ],
   "author": "ne1410s <pgj646@gmail.com> (http://ne1410s.co.uk)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ne1410s/ne14.dom/issues"
-  },
-  "homepage": "https://github.com/ne1410s/ne14.dom#readme",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "rimraf": "^2.6.2",
-    "typescript": "^3.1.6"
+    "rimraf": "^3.0.1",
+    "typescript": "^3.7.5"
   }
 }
