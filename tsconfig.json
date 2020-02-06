@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
     "declaration": true,
     "noImplicitAny": true,
     "target": "es5",
@@ -7,7 +9,7 @@
       "dom",
       "es6"
     ],
-    "outFile": "dist/index.js",
+    "outDir": "dist",
   },
   "include": [
     "src/**/*.ts"
