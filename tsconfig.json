@@ -1,15 +1,10 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "none",
     "declaration": true,
     "noImplicitAny": true,
     "target": "es5",
-    "lib": [
-      "dom",
-      "es6"
-    ],
-    "outDir": "dist",
+    "outFile": "dist/index.js"
   },
   "include": [
     "src/**/*.ts"

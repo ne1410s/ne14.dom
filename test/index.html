@@ -5,110 +5,20 @@
     <script src="../dist/index.js"></script>
 
     <script>(function() {
-
-        var test_cols = ['name', 'expected', 'actual', 'outcome', ''];
-        var test_cache = {};
-
-        window.Test = function(name, expected, fn) {
-            this.id;
-            this.actual;
-            this.outcome;
-            this.name = name;
-            this.expected = expected;
-            this.run = function() {
-                return this.outcome = (this.actual = fn()) === expected;
-            }
-        };
-
-        window.InitTesting = function(tests) {
-            var hr = document.createElement('tr');
-            hr.align = 'left';       
-            for (var i = 0; i < test_cols.length; i++) {
-                var hc = document.createElement('th');
-                hc.textContent = test_cols[i];
-                hr.appendChild(hc);
-            }
-
-            var t = document.createElement('table');
-            t.id = 'test-matrix';
-            t.appendChild(hr);
-            document.body.appendChild(t);
-
-            var btn = document.createElement('button');
-            btn.onclick = window.RunAllTests;
-            btn.textContent = 'run all';
-            document.body.appendChild(btn);
-
-            if (tests) {
-                window.AddTests(tests);
-            }
-        };
-
-        window.AddTests = function(tests) {
-            var t = document.getElementById('test-matrix');
-            for (var i = 0; i < (tests || []).length; i++) {
-                var dr = document.createElement('tr');
-                dr.id = tests[i].id = 'test-' + i;
-                for (var j = 0; j < test_cols.length; j++) {
-                    var dc = document.createElement('td');
-                    dc.className = 'col-' + test_cols[j];
-                    dc.textContent = tests[i][test_cols[j]];
-                    dr.appendChild(dc);
-                }
-
-                var testName = tests[i].name;
-                var bc = document.createElement('td');
-                var btn = document.createElement('button');
-                btn.textContent = 'run';
-                btn.onclick = function() { window.RunTest(testName); };
-                bc.appendChild(btn);
-                dr.appendChild(bc);
-                t.appendChild(dr);
-                test_cache[testName] = tests[i];
-            }
-        };
-
-        window.RunTest = function(name) {
-            var test = test_cache[name];
-            test.run();
-            var dr = document.getElementById(test.id);
-            for (var i = 0; i < test_cols.length; i++) {
-                var dc = dr.getElementsByClassName('col-' + test_cols[i])[0];
-                dc.textContent = test[test_cols[i]];
-            }
-        };
-
-        window.RunAllTests = function() {
-            for (var name in test_cache) {
-                if (test_cache.hasOwnProperty(name)) {
-                    window.RunTest(name);
-                }
-            }
-        };
-
-        window.addEventListener('load', function() {
-            window.InitTesting([
-                new Test('Something', 42, function() { return 6 * 7; })
-            ]);
-        });
-
-    })();</script>
-
-    <script>(function() {
         
-        ne14Dom.on(window, 'load', function() {
-            ne14Dom.each('p', function(elem) {
+        Comms.on(window, 'load', function() {
+            Traverse.each('p', function(elem) {
                 console.log('p found! Text:', elem.innerText);
             });
 
-            console.log(ne14Dom.find('p').length);
+            console.log(Traverse.find('p').length);
         });
 
-        ne14Dom.on(window, 'sneeze', function(evt) {
+        Comms.on(window, 'sneeze', function(evt) {
             console.log('bless you!', evt);
         });
 
-        ne14Dom.fire(window, 'sneeze', 'yo!');
+        Comms.fire(window, 'sneeze', 'yo!');
 
     })();</script>
 
