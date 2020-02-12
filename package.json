@@ -14,8 +14,11 @@
     "clean": "npx rimraf dist",
     "build": "npx tsc",
     "bundle": "npx rollup -c",
-    "package": "npm run clean && npm run build && npm run bundle && npm pack",
-    "publish-patch": "npm version patch && npm publish --access public"
+    "clean-bundle": "npm run clean && npm run build && npm run bundle",
+    "publish-local": "npm run clean-bundle && npm pack",
+    "publish-patch": "npm run clean-bundle && npm version patch && npm publish --access public",
+    "publish-minor": "npm run clean-bundle && npm version minor && npm publish --access public",
+    "publish-major": "npm run clean-bundle && npm version major && npm publish --access public"
   },
   "repository": {
     "type": "git",
