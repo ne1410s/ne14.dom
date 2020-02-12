@@ -2,16 +2,19 @@
   "name": "@ne1410s/dom",
   "version": "0.0.5",
   "description": "Lightweight ES5 script designed for inclusion in html and svg to simplify DOM operations",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.es.js",
   "files": [
     "dist"
   ],
   "scripts": {
+    "dev": "npx tsc -w",
     "clean": "npx rimraf dist",
     "build": "npx tsc",
-    "dev": "npx tsc -w",
+    "bundle": "npx rollup -c",
+    "package": "npm run clean && npm run build && npm run bundle && npm pack",
     "publish-patch": "npm version patch && npm publish --access public"
   },
   "repository": {
@@ -29,7 +32,10 @@
     "url": "https://github.com/ne1410s/ne14.dom/issues"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "rimraf": "^3.0.1",
+    "rollup": "^1.31.0",
     "typescript": "^3.7.5"
   }
 }

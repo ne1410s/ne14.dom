@@ -1,11 +1,11 @@
-abstract class Traverse {
+export class Traverse {
 
   /**
    * Returns an array of elements that match a css-style query.
    * @param cssQuery The css-style query.
    * @param root The starting element for the query.
    */
-  public static find(cssQuery: string, root?: Element): Array<Element> {
+  public find(cssQuery: string, root?: Element): Array<Element> {
 
     const parent = root || document,
       nodes = parent.querySelectorAll(cssQuery);
@@ -18,7 +18,7 @@ abstract class Traverse {
    * @param cssQuery The css-style query.
    * @param root The starting element for the query.
    */
-  public static first(cssQuery: string, root?: Element): Element {
+  public first(cssQuery: string, root?: Element): Element {
 
     const parent = root || document,
       node = parent.querySelector(cssQuery);
@@ -32,7 +32,7 @@ abstract class Traverse {
    * @param callbackfn The function to invoke.
    * @param root The starting element for the query.
    */
-  public static each(
+  public each(
       cssQuery: string,
       callbackfn: (value: Element, index: number, array: Element[]) => void,
       root?: Element): void {

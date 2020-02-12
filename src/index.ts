@@ -1,13 +1,15 @@
+import { Traverse } from "./traverse";
+import { Comms } from "./comms";
 
-abstract class ne14Dom {
-
-    /**
-     * Dom communications.
-     */
-    //public static comms: Comms;
+export class dom {
 
     /**
-     * Dom traversal.
+     * Communications.
      */
-    //public static traverse: Traverse;
+    public static comms = new Comms();
+
+    /**
+     * Traversal.
+     */
+    public static traverse = new Traverse();
 }
