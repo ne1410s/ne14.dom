@@ -1,4 +1,7 @@
-export class traverse {
+/**
+ * DOM traversal.
+ */
+export class seek {
 
   /**
    * Returns an array of elements that match a css-style query.

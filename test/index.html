@@ -7,11 +7,11 @@
   <script>(function () {
 
     ne_dom.comms.on(window, 'load', function () {
-      ne_dom.traverse.each('p', function (elem) {
+      ne_dom.seek.each('p', function (elem) {
         console.log('p found! Text:', elem.innerText);
       });
 
-      console.log(ne_dom.traverse.find('p').length);
+      console.log(ne_dom.seek.find('p').length);
     });
 
     ne_dom.comms.on(window, 'sneeze', function(evt) {

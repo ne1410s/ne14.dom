@@ -1,6 +1,9 @@
 import { comms } from "./comms";
 
-export class structure {
+/**
+ * Structural manipulation.
+ */
+export class forge {
 
   /**
    * Removes all elements from the one specified.
@@ -27,7 +30,7 @@ export class structure {
     const makeParam = this.ofType<MakeParam>(opts);
     const elem = document.createElement(makeParam.tag || opts as string);
     elem.textContent = makeParam.text;
-    
+
     const safeAttribs = makeParam.attribs || {};
     for (let key in safeAttribs) {
       elem.setAttributeNS(null, key, safeAttribs[key]);
@@ -41,22 +44,24 @@ export class structure {
     return elem;
   }
 
-  /**
-   * Appends a linear chain of elements from the top down. Elements can be predefined, or indeed
-   * created from scratch as part of this function.
-   * @param elems 
-   */
-  public static chain(...elems: Array<Element | string | MakeParam>): Element[] {
+  public static chainDown(...elems: Array<Element | string | MakeParam>): Element[] {
+    const fn = (ref: Element, next: Element) => ref.appendChild(next);
+    return this.chain(fn, ...elems);
+  }
+
+  private static chain(
+      fn: (ref: Element, next: Element) => void,
+      ...elems: Array<Element | string | MakeParam>): Element[] {
 
     if (elems.length < 2) {
       throw new RangeError('At least two elements must be supplied');
     }
 
     const finalSet = elems.map(elem => typeof elem === 'string' || this.ofType<MakeParam>(elem).tag
-        ? this.make(elem as string | MakeParam) : elem as Element);
-    
+      ? this.make(elem as string | MakeParam) : elem as Element);
+
     for (let i = 1; i < finalSet.length; i++) {
-      finalSet[i - 1].appendChild(finalSet[i]);
+      fn(finalSet[i - 1], finalSet[i]);
     }
 
     return finalSet;

@@ -1,3 +1,6 @@
+/**
+ * Events and timing.
+ */
 export class comms {
 
   /**
