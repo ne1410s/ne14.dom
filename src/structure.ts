@@ -1,4 +1,4 @@
-import { dom } from ".";
+import { Comms } from "./comms";
 
 export class Structure {
 
@@ -35,7 +35,7 @@ export class Structure {
 
     const safeEvents = makeParam.events || {};
     for (let key in safeEvents) {
-      dom.comms.on(elem, key, safeEvents[key]);
+      new Comms().on(elem, key, safeEvents[key]);
     }
 
     return elem;
