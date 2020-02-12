@@ -1,4 +1,4 @@
-export class Comms {
+export class comms {
 
   /**
    * Attaches listener handling to an event on a given element.
@@ -6,7 +6,7 @@ export class Comms {
    * @param eventName The event name.
    * @param callbackfn The handling code.
    */
-  public on(
+  public static on(
       element: Element,
       eventName: string,
       callbackfn: EventListenerOrEventListenerObject): void {
@@ -20,7 +20,7 @@ export class Comms {
    * @param eventName The event name.
    * @param detail Any custom data.
    */
-  public fire<T>(element: Element, eventName: string, detail?: T): void {
+  public static fire<T>(element: Element, eventName: string, detail?: T): void {
 
     // element.dispatchEvent(new CustomEvent(eventName, { detail }));
     const event = document.createEvent('CustomEvent');

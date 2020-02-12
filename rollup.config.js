@@ -5,7 +5,7 @@ export default [
   { // UMD build (for browsers)
     input: 'dist/index.js',
     output: {
-      name: 'ne14',
+      name: 'ne_dom',
       file: pkg.browser,
       format: 'umd'
     }

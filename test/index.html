@@ -6,19 +6,19 @@
   <script src="../dist/index.umd.js"></script>
   <script>(function () {
 
-    ne14.dom.comms.on(window, 'load', function () {
-      ne14.dom.traverse.each('p', function (elem) {
+    ne_dom.comms.on(window, 'load', function () {
+      ne_dom.traverse.each('p', function (elem) {
         console.log('p found! Text:', elem.innerText);
       });
 
-      console.log(ne14.dom.traverse.find('p').length);
+      console.log(ne_dom.traverse.find('p').length);
     });
 
-    ne14.dom.comms.on(window, 'sneeze', function(evt) {
+    ne_dom.comms.on(window, 'sneeze', function(evt) {
       console.log('bless you!', evt);
     });
 
-    ne14.dom.comms.fire(window, 'sneeze', 'yo!');
+    ne_dom.comms.fire(window, 'sneeze', 'yo!');
 
   })();</script>
 

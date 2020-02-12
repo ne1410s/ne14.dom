@@ -1,13 +1,13 @@
-import { Comms } from "./comms";
+import { comms } from "./comms";
 
-export class Structure {
+export class structure {
 
   /**
    * Removes all elements from the one specified.
    * @param element The element to empty.
    * @returns The number of elements removed.
    */
-  public empty(element: Element): number {
+  public static empty(element: Element): number {
 
     let retVal = 0;
     while (element.firstChild) {
@@ -22,7 +22,7 @@ export class Structure {
    * Creates a new element.
    * @param opts A simple tag name, or else a more detailed set of parameters.
    */
-  public make(opts: string | MakeParam): Element {
+  public static make(opts: string | MakeParam): Element {
 
     const makeParam = this.ofType<MakeParam>(opts);
     const elem = document.createElement(makeParam.tag || opts as string);
@@ -35,7 +35,7 @@ export class Structure {
 
     const safeEvents = makeParam.events || {};
     for (let key in safeEvents) {
-      new Comms().on(elem, key, safeEvents[key]);
+      comms.on(elem, key, safeEvents[key]);
     }
 
     return elem;
@@ -46,7 +46,7 @@ export class Structure {
    * created from scratch as part of this function.
    * @param elems 
    */
-  public chain(...elems: Array<Element | string | MakeParam>): Element[] {
+  public static chain(...elems: Array<Element | string | MakeParam>): Element[] {
 
     if (elems.length < 2) {
       throw new RangeError('At least two elements must be supplied');
@@ -66,7 +66,7 @@ export class Structure {
    * Gets an object in the given type if possible, else an empty object.
    * @param obj The object whose type to check.
    */
-  private ofType<T>(obj: any): T {
+  private static ofType<T>(obj: any): T {
     return obj as T || {} as T;
   }
 }
