@@ -31,12 +31,12 @@ export class forge {
     const elem = document.createElement(makeParam.tag || opts as string);
     elem.textContent = makeParam.text;
 
-    const safeAttribs = makeParam.attribs || {};
+    const safeAttribs = makeParam.attr || {};
     for (let key in safeAttribs) {
       elem.setAttributeNS(null, key, safeAttribs[key]);
     }
 
-    const safeEvents = makeParam.events || {};
+    const safeEvents = makeParam.evts || {};
     for (let key in safeEvents) {
       comms.on(elem, key, safeEvents[key]);
     }
@@ -44,14 +44,36 @@ export class forge {
     return elem;
   }
 
+  /**
+   * Chains a sequence of elements by progressively appending them as child nodes.
+   * @param elems A sequence of elements and/or element definitions.
+   * @returns The sequence of formed elements in the chain.
+   */
   public static chainDown(...elems: Array<Element | string | MakeParam>): Element[] {
-    const fn = (ref: Element, next: Element) => ref.appendChild(next);
-    return this.chain(fn, ...elems);
+    return this.chain((r: Element, n: Element) => r.appendChild(n), elems);
+  }
+
+  /**
+   * Chains a sequence of elements by progressively inserting them after.
+   * @param elems A sequence of elements and/or element definitions.
+   * @returns The sequence of formed elements in the chain.
+   */
+  public static chainRight(...elems: Array<Element | string | MakeParam>): Element[] {
+    return this.chain((r: Element, n: Element) => r.parentNode.insertBefore(n, r.nextSibling), elems);
+  }
+
+  /**
+   * Chains a sequence of elements by progressively inserting them before.
+   * @param elems A sequence of elements and/or element definitions.
+   * @returns The sequence of formed elements in the chain.
+   */
+  public static chainLeft(...elems: Array<Element | string | MakeParam>): Element[] {
+    return this.chain((r: Element, n: Element) => r.parentNode.insertBefore(n, r), elems);
   }
 
   private static chain(
       fn: (ref: Element, next: Element) => void,
-      ...elems: Array<Element | string | MakeParam>): Element[] {
+      elems: Array<Element | string | MakeParam>): Element[] {
 
     if (elems.length < 2) {
       throw new RangeError('At least two elements must be supplied');
@@ -80,8 +102,12 @@ export class forge {
  * Parameter block for the structure/make() event.
  */
 export interface MakeParam {
+  /** Tag name. */
   tag: string;
+  /** Node text. */
   text?: string;
-  attribs?: { [name: string]: string };
-  events?: { [name: string]: EventListenerOrEventListenerObject }
+  /** Attributes */
+  attr?: { [name: string]: string };
+  /** Event handling */
+  evts?: { [name: string]: EventListenerOrEventListenerObject }
 }
