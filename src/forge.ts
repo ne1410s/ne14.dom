@@ -29,7 +29,9 @@ export class forge {
 
     const makeParam = this.ofType<MakeParam>(opts);
     const elem = document.createElement(makeParam.tag || opts as string);
-    elem.textContent = makeParam.text;
+    if (makeParam.text) {
+      elem.textContent = makeParam.text;
+    }
 
     const safeAttribs = makeParam.attr || {};
     for (let key in safeAttribs) {

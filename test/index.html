@@ -12,6 +12,8 @@
       });
 
       console.log(ne_dom.seek.find('p').length);
+      
+      ne_dom.forge.chainDown(document.body, 'div', 'div');
     });
 
     ne_dom.comms.on(window, 'sneeze', function(evt) {
