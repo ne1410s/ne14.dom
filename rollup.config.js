@@ -1,28 +1,7 @@
-import typescript from 'rollup-plugin-typescript2';
-import pkg from './package.json';
+import rollup_browser from './rollup.browser.config';
+import rollup_bundler from './rollup.bundler.config';
 
 export default [
-
-  { // UMD build (for browsers)
-    input: 'src/index.ts',
-    output: {
-      name: 'ne_dom',
-      file: pkg.browser,
-      format: 'umd'
-    },
-    plugins: [
-      typescript()
-    ]
-  },
-
-  { // CommonJS (for Node) and ES module (for bundlers) builds
-    input: 'src/index.ts',
-    output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' }
-    ],
-    plugins: [
-      typescript()
-    ]
-  }
+  rollup_browser,
+  rollup_bundler
 ];

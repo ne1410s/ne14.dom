@@ -10,14 +10,13 @@
     "dist"
   ],
   "scripts": {
-    "dev": "npx rollup -c -w",
+    "dev": "npx rollup -c rollup.browser.config.js -m inline -w",
     "clean": "npx rimraf dist",
-    "build": "npx rollup -c",
-    "clean-build": "npm run clean && npm run build",
-    "publish-local": "npm run clean-build && npm pack",
-    "publish-patch": "npm run clean-build && npm version patch && npm publish --access public",
-    "publish-minor": "npm run clean-build && npm version minor && npm publish --access public",
-    "publish-major": "npm run clean-build && npm version major && npm publish --access public"
+    "build": "npm run clean && npx rollup -c",
+    "publish-local": "npm run build && npm pack",
+    "publish-patch": "npm run build && npm version patch && npm publish --access public",
+    "publish-minor": "npm run build && npm version minor && npm publish --access public",
+    "publish-major": "npm run build && npm version major && npm publish --access public"
   },
   "repository": {
     "type": "git",
