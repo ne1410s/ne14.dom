@@ -2,15 +2,15 @@
   "name": "@ne1410s/dom",
   "version": "0.1.1",
   "description": "Lightweight ES5 script designed for inclusion in html and svg to simplify DOM operations",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.min.js",
+  "main": "dist/ne14_dom.cjs.min.js",
+  "module": "dist/ne14_dom.esm.min.js",
+  "browser": "dist/ne14_dom.umd.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "npx rollup -c rollup.browser.config.js -m inline -w",
+    "dev": "npx rollup -c rollup.browser.config.js -m -w",
     "clean": "npx rimraf dist",
     "build": "npm run clean && npx rollup -c",
     "publish-local": "npm run build && npm pack",
