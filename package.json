@@ -10,15 +10,14 @@
     "dist"
   ],
   "scripts": {
-    "dev": "npx tsc -w",
+    "dev": "npx rollup -c -w",
     "clean": "npx rimraf dist",
-    "build": "npx tsc",
-    "bundle": "npx rollup -c",
-    "clean-bundle": "npm run clean && npm run build && npm run bundle",
-    "publish-local": "npm run clean-bundle && npm pack",
-    "publish-patch": "npm run clean-bundle && npm version patch && npm publish --access public",
-    "publish-minor": "npm run clean-bundle && npm version minor && npm publish --access public",
-    "publish-major": "npm run clean-bundle && npm version major && npm publish --access public"
+    "build": "npx rollup -c",
+    "clean-build": "npm run clean && npm run build",
+    "publish-local": "npm run clean-build && npm pack",
+    "publish-patch": "npm run clean-build && npm version patch && npm publish --access public",
+    "publish-minor": "npm run clean-build && npm version minor && npm publish --access public",
+    "publish-major": "npm run clean-build && npm version major && npm publish --access public"
   },
   "repository": {
     "type": "git",
@@ -37,8 +36,10 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
+    "@rollup/plugin-typescript": "^3.0.0",
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "typescript": "^3.7.5"
   }
 }
