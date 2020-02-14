@@ -1,3 +1,4 @@
+import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
@@ -10,6 +11,9 @@ export default {
     format: 'umd'
   },
   plugins: [
-    typescript()
+    typescript(),
+    terser({
+      include: '*.umd.min.js'
+    }),
   ]
 };

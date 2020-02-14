@@ -4,7 +4,7 @@
   "description": "Lightweight ES5 script designed for inclusion in html and svg to simplify DOM operations",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.js",
+  "browser": "dist/index.umd.min.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
@@ -38,6 +38,7 @@
     "@rollup/plugin-typescript": "^3.0.0",
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
+    "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
     "typescript": "^3.7.5"
   }
