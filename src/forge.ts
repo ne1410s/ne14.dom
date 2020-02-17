@@ -6,15 +6,15 @@ import { comms } from "./comms";
 export class forge {
 
   /**
-   * Removes all elements from the one specified.
-   * @param element The element to empty.
-   * @returns The number of elements removed.
+   * Removes all children from the node specified.
+   * @param node The node to empty.
+   * @returns The number of children removed.
    */
-  public static empty(element: Element): number {
+  public static empty(node: Node): number {
 
     let retVal = 0;
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
+    while (node.firstChild) {
+      node.removeChild(node.firstChild);
       retVal++;
     }
 
@@ -47,42 +47,42 @@ export class forge {
   }
 
   /**
-   * Chains a sequence of elements by progressively appending them as child nodes.
-   * @param elems A sequence of elements and/or element definitions.
-   * @returns The sequence of formed elements in the chain.
+   * Chains a sequence of nodes by progressively appending them as children.
+   * @param nodes A sequence of nodes and/or definitions.
+   * @returns The sequence of formed nodes in the chain.
    */
-  public static chainDown(...elems: Array<Element | string | MakeParam>): Element[] {
-    return this.chain((r: Element, n: Element) => r.appendChild(n), elems);
+  public static chainDown(...nodes: Array<Node | string | MakeParam>): Node[] {
+    return this.chain((r: Element, n: Element) => r.appendChild(n), nodes);
   }
 
   /**
-   * Chains a sequence of elements by progressively inserting them after.
-   * @param elems A sequence of elements and/or element definitions.
-   * @returns The sequence of formed elements in the chain.
+   * Chains a sequence of nodes by progressively inserting them after.
+   * @param nodes A sequence of nodes and/or definitions.
+   * @returns The sequence of formed nodes in the chain.
    */
-  public static chainRight(...elems: Array<Element | string | MakeParam>): Element[] {
-    return this.chain((r: Element, n: Element) => r.parentNode.insertBefore(n, r.nextSibling), elems);
+  public static chainRight(...nodes: Array<Node | string | MakeParam>): Node[] {
+    return this.chain((r: Node, n: Node) => r.parentNode.insertBefore(n, r.nextSibling), nodes);
   }
 
   /**
-   * Chains a sequence of elements by progressively inserting them before.
-   * @param elems A sequence of elements and/or element definitions.
-   * @returns The sequence of formed elements in the chain.
+   * Chains a sequence of nodes by progressively inserting them before.
+   * @param nodes A sequence of nodes and/or definitions.
+   * @returns The sequence of formed nodes in the chain.
    */
-  public static chainLeft(...elems: Array<Element | string | MakeParam>): Element[] {
-    return this.chain((r: Element, n: Element) => r.parentNode.insertBefore(n, r), elems);
+  public static chainLeft(...nodes: Array<Node | string | MakeParam>): Node[] {
+    return this.chain((r: Node, n: Node) => r.parentNode.insertBefore(n, r), nodes);
   }
 
   private static chain(
-      fn: (ref: Element, next: Element) => void,
-      elems: Array<Element | string | MakeParam>): Element[] {
+      fn: (ref: Node, next: Node) => void,
+      nodes: Array<Node | string | MakeParam>): Node[] {
 
-    if (elems.length < 2) {
-      throw new RangeError('At least two elements must be supplied');
+    if (nodes.length < 2) {
+      throw new RangeError('At least two nodes must be supplied');
     }
 
-    const finalSet = elems.map(elem => typeof elem === 'string' || this.ofType<MakeParam>(elem).tag
-      ? this.make(elem as string | MakeParam) : elem as Element);
+    const finalSet = nodes.map(node => typeof node === 'string' || this.ofType<MakeParam>(node).tag
+      ? this.make(node as string | MakeParam) : node as Node);
 
     for (let i = 1; i < finalSet.length; i++) {
       fn(finalSet[i - 1], finalSet[i]);

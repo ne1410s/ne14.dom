@@ -8,12 +8,12 @@ export class seek {
    * @param cssQuery The css-style query.
    * @param root The starting element for the query.
    */
-  public static find(cssQuery: string, root?: Element): Array<Element> {
+  public static find(cssQuery: string, root?: ParentNode): Array<Element> {
 
     const parent = root || document,
-      nodes = parent.querySelectorAll(cssQuery);
+          elems = parent.querySelectorAll(cssQuery);
 
-    return Array.prototype.slice.call(nodes);
+    return Array.prototype.slice.call(elems);
   }
 
   /**
@@ -21,12 +21,12 @@ export class seek {
    * @param cssQuery The css-style query.
    * @param root The starting element for the query.
    */
-  public static first(cssQuery: string, root?: Element): Element {
+  public static first(cssQuery: string, root?: ParentNode): Element {
 
     const parent = root || document,
-      node = parent.querySelector(cssQuery);
+          elem = parent.querySelector(cssQuery);
 
-    return node;
+    return elem;
   }
 
   /**
@@ -38,7 +38,7 @@ export class seek {
   public static each(
       cssQuery: string,
       callbackfn: (value: Element, index: number, array: Element[]) => void,
-      root?: Element): void {
+      root?: ParentNode): void {
 
     this.find(cssQuery, root).forEach(callbackfn);
   }
