@@ -6,21 +6,25 @@
   <script src="../dist/ne14_dom.umd.min.js"></script>
   <script>(function () {
 
-    ne_dom.comms.on(window, 'load', function () {
-      ne_dom.seek.each('p', function (elem) {
-        console.log('p found! Text:', elem.innerText);
-      });
+    var x = ne_dom.$Q.From('body');
+    var y = x.add('h1');
 
-      console.log(ne_dom.seek.find('p').length);
+
+    // ne_dom.comms.on(window, 'load', function () {
+    //   ne_dom.seek.each('p', function (elem) {
+    //     console.log('p found! Text:', elem.innerText);
+    //   });
+
+    //   console.log(ne_dom.seek.find('p').length);
       
-      ne_dom.forge.chainDown(document.body, 'div', 'div');
-    });
+    //   ne_dom.forge.chainDown(document.body, 'div', 'div');
+    // });
 
-    ne_dom.comms.on(window, 'sneeze', function(evt) {
-      console.log('bless you!', evt);
-    });
+    // ne_dom.comms.on(window, 'sneeze', function(evt) {
+    //   console.log('bless you!', evt);
+    // });
 
-    ne_dom.comms.fire(window, 'sneeze', 'yo!');
+    // ne_dom.comms.fire(window, 'sneeze', 'yo!');
 
   })();</script>
 
