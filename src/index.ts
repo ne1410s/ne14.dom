@@ -1,1 +1,1 @@
-export * from './q2a';
+export * from './functions';
