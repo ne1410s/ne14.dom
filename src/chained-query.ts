@@ -7,6 +7,8 @@ export class ChainedQuery {
 
   private _elems: Element[] = [];
 
+  get length() { return this._elems.length; }
+
   constructor(...input: (string | QuickParam | Element)[]) {
     this.add(...input);
   }
@@ -21,6 +23,12 @@ export class ChainedQuery {
   each(func: (elem: Element, i?: number) => void): ChainedQuery {
     this._elems.forEach((el, i) => func(el, i));
     return this;
+  }
+
+  append(...input: (string | QuickParam | Element)[]): ChainedQuery {
+    return this.each(el => {
+      el.append(...ChainedQuery.Map(input));
+    });
   }
 
   empty(): ChainedQuery {
@@ -39,6 +47,13 @@ export class ChainedQuery {
     return this.each(el => {
       evts.forEach(name => el.addEventListener(name, func));
     });
+  }
+
+  find(selector: string): ChainedQuery {
+    return new ChainedQuery(...this._elems.reduce((acc, elem) => {
+      acc.push(...ChainedQuery.MapSelector(selector, elem));
+      return acc;
+    }, [] as Element[]));
   }
 
   private static Map(input: (string | QuickParam | Element)[]): Element[] {
@@ -61,8 +76,8 @@ export class ChainedQuery {
     return Array.from(template.content.children);
   }
 
-  private static MapSelector(selector: string): Element[] {
-    return Array.from(document.querySelectorAll(selector));
+  private static MapSelector(selector: string, root?: Element): Element[] {
+    return Array.from((root || document).querySelectorAll(selector));
   }
 
   private static MapParam(p: QuickParam): Element {
