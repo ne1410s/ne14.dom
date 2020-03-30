@@ -1,13 +1,14 @@
-import { QuickParam } from "./models";
+import { ChainSource } from "./models";
 import { ChainedQuery } from "./chained-query";
 
-export function ready(func: () => void): void {
-  document.addEventListener('readystatechange', () => {
-    if (document.readyState === 'interactive') func();
+export function ready(func: () => void, doc?: Document): void {
+  doc = doc || document;
+  doc.addEventListener('readystatechange', () => {
+    if (doc.readyState === 'interactive') func();
   });
 };
 
-export function q(...input: (string | QuickParam | Element)[]): ChainedQuery {
+export function q(...input: ChainSource[]): ChainedQuery {
   return new ChainedQuery(...input);
 }
 

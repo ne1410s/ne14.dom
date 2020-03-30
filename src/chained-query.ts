@@ -1,38 +1,37 @@
-import { QuickParam, Chainable, ChainSource } from './models';
+import { Chainable, ChainSource } from './models';
+import { SourceMapper } from './source-mapper';
 
 export class ChainedQuery {
 
-  private static readonly NAIVE_HTML_RGX = /^<.*>$/m;
   private static readonly WHITESPACE_RGX = /\s+/;
 
   private _items: Chainable[] = [];
   
-  get targets(): EventTarget[] {
+  private get targets(): EventTarget[] {
     return this._items
       .filter(it => it instanceof EventTarget)
       .map(it => it as EventTarget);
   }
 
-  get nodes(): Node[] {
+  get elements(): Element[] {
+    return this._items
+      .filter(it => it instanceof Element)
+      .map(it => it as Element);
+  }
+
+  private get nodes(): Node[] {
     return this._items
       .filter(it => it instanceof Node)
       .map(it => it as Node);
   }
 
-  get containers(): ParentNode[] {
+  private get containers(): ParentNode[] {
     return this._items
       .map(it => it as ParentNode)
       .filter(p => typeof p.append === 'function');
   }
 
   get length() { return this._items.length; }
-
-
-  /* TODO: Make the params also include:
-    - window      -> event-target
-    - document    -> parent-node and target?
-    - shadow root -> parent-node
-  */
 
   constructor(...sources: ChainSource[]) {
     this.add(...sources);
@@ -41,30 +40,27 @@ export class ChainedQuery {
   get = (index: number) => this._items[index];
 
   add(...sources: ChainSource[]): ChainedQuery {    
-    this._items.push(...ChainedQuery.Map(sources));
+    this._items.push(...SourceMapper.Map(sources));
     return this;
   }
 
+  // TODO: This must not fall over if trying to perform an action
+  // on an inappropriate type. eg setting an attribute on window, or
+  // trying to query a non-parent node..
   each(func: (item: Chainable, i?: number) => void): ChainedQuery {
     this._items.forEach((item, i) => func(item, i));
     return this;
   }
 
-  append(...sources: ChainSource[]): ChainedQuery {
-    this.containers.forEach(parent => {
-      const nodes = new ChainedQuery(...sources).nodes;
-      parent.append(...nodes);
+  prop<T>(name: string, value: T) {
+    return this.each((item: any) => {
+      if (name in item) {
+        item[name] = value;
+      }
     });
-    return this;
   }
 
-  empty(): ChainedQuery {
-    this.nodes.forEach(n => {
-      while (n.firstChild) { n.removeChild(n.firstChild); }
-    });
-    return this;
-  }
-
+  //#region Targets
   fire<T>(eventName: string, detail?: T): ChainedQuery {
     const evt = new CustomEvent(eventName, { detail });
     this.targets.forEach(t => t.dispatchEvent(evt));
@@ -78,43 +74,42 @@ export class ChainedQuery {
     });
     return this;
   }
+  //#endregion
 
+  //#region Elements
+  attr(name: string, value: string, ns?: string): ChainedQuery {
+    this.elements.forEach(elem => elem.setAttributeNS(ns, name, value));
+    return this;
+  }
+  //#endregion
+
+  //#region Nodes
+  empty(): ChainedQuery {
+    this.nodes.forEach(n => {
+      while (n.firstChild) { n.removeChild(n.firstChild); }
+    });
+    return this;
+  }
+  //#endregion
+
+  //#region Containers
+  append(...sources: ChainSource[]): ChainedQuery {
+    this.containers.forEach(parent => {
+      const nodes = new ChainedQuery(...sources).nodes;
+      parent.append(...nodes);
+    });
+    return this;
+  }
   find(selector: string): ChainedQuery {
-    return new ChainedQuery(...this.containers.reduce((acc, p) => {
-      acc.push(...ChainedQuery.MapSelector(selector, p));
+    return new ChainedQuery(...this.containers.reduce((acc, parent) => {
+      acc.push(...Array.from(parent.querySelectorAll(selector)));
       return acc;
     }, [] as Chainable[]));
   }
- 
-  private static Map(sources: ChainSource[]): Chainable[] {
-    return sources.reduce((acc, item) => {
-      if (typeof item === 'string') {
-        acc.push(...this.NAIVE_HTML_RGX.test(item) 
-          ? this.MapHTML(item)
-          : this.MapSelector(item));
-      }
-      else if ((item as any).tag) acc.push(this.MapParam(item as QuickParam));
-      else if ((item as any).tagName) acc.push(item as Element);
-      else console.warn('Unrecognised item:', item);
-      return acc;
-    }, [] as Chainable[]);
+  first(selector: string): ChainedQuery {
+    return new ChainedQuery(...this.containers
+      .map(parent => parent.querySelector(selector))
+      .filter(found => !!found));
   }
-
-  private static MapHTML(html: string): Chainable[] {
-    const template = document.createElement('template');
-    template.innerHTML = html;
-    return Array.from(template.content.childNodes);
-  }
-
-  private static MapSelector(selector: string, root?: ParentNode): Element[] {
-    return Array.from((root || document).querySelectorAll(selector));
-  }
-
-  private static MapParam(p: QuickParam): Element {
-    const n = document.createElement(p.tag);
-    if (p.text) n.textContent = p.text;
-    for (let key in p.attr || {}) { n.setAttribute(key, p.attr[key]); }
-    for (let key in p.evts || {}) { n.addEventListener(key, p.evts[key]); }
-    return n;
-  }
+  //#endregion
 }
