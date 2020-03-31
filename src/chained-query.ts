@@ -90,6 +90,14 @@ export class ChainedQuery {
     });
     return this;
   }
+
+  remove(): ChainedQuery {
+    return new ChainedQuery(...this._items.filter(it => {
+      const handle = it instanceof Node;
+      if (handle) (it as Node).parentNode.removeChild(it as Node);
+      return !handle;
+    }));
+  }
   //#endregion
 
   //#region Containers
