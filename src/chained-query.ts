@@ -102,11 +102,16 @@ export class ChainedQuery {
 
   //#region Containers
   append(...sources: ChainSource[]): ChainedQuery {
-    this.containers.forEach(parent => {
+    this.appendIn(...sources);
+    return this;
+  }
+  appendIn(...sources: ChainSource[]): ChainedQuery {
+    return new ChainedQuery(...this.containers.reduce((acc, parent) => {
       const nodes = new ChainedQuery(...sources).nodes;
       parent.append(...nodes);
-    });
-    return this;
+      acc.push(...nodes);
+      return acc;
+    }, [] as Node[]));
   }
   find(selector: string): ChainedQuery {
     return new ChainedQuery(...this.containers.reduce((acc, parent) => {
