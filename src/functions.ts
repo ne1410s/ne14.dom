@@ -1,5 +1,5 @@
-import { ChainSource } from "./models";
-import { ChainedQuery } from "./chained-query";
+import { ChainSource } from './models';
+import { ChainedQuery } from './chained-query';
 
 export function ready(func: () => void, doc?: Document): void {
   doc = doc || document;

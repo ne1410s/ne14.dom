@@ -78,7 +78,10 @@ export class ChainedQuery {
 
   //#region Elements
   attr(name: string, value: string, ns?: string): ChainedQuery {
-    this.elements.forEach(elem => elem.setAttributeNS(ns, name, value));
+    this.elements.forEach(elem => {
+      if (value != null) elem.setAttributeNS(ns, name, value);
+      else elem.removeAttributeNS(ns, name);
+    });
     return this;
   }
   //#endregion

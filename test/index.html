@@ -10,7 +10,9 @@
       ne_dom
         .q('body')
         .find('p')
-        .append({ tag: 'span', text: 'ggg' })
+        .append({ tag: 'span', text: 'ggg', attr: { class: 'orig' } })
+        .attr('title', 'things')
+        .attr('class', null)
         .find('span')
         .each(el => el.style.backgroundColor = 'pink');
     });

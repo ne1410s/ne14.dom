@@ -1,4 +1,4 @@
-import { ChainSource, Chainable, QuickParam } from "./models";
+import { ChainSource, Chainable, QuickParam } from './models';
 
 export class SourceMapper {
   
@@ -32,8 +32,16 @@ export class SourceMapper {
   private static MapParam(p: QuickParam): Element {
     const n = document.createElement(p.tag);
     if (p.text) n.textContent = p.text;
-    for (let key in p.attr || {}) { n.setAttribute(key, p.attr[key]); }
-    for (let key in p.evts || {}) { n.addEventListener(key, p.evts[key]); }
+    for (let key in p.attr || {}) { 
+      if (p.attr[key] != null) {
+        n.setAttribute(key, p.attr[key]);
+      }
+    }
+    for (let key in p.evts || {}) { 
+      if (typeof p.evts[key] === 'function') {
+        n.addEventListener(key, p.evts[key]);
+      }
+    }
     return n;
   }
 }
