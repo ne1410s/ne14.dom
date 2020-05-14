@@ -7,13 +7,16 @@
   <script>(function () {
 
     ne_dom.ready(() => {
+
+      const $mytag = ne_dom
+        .q({ tag: 'span', text: 'ggg' })
+        .attr('title', 'things');
+
       ne_dom
         .q('body')
         .find('p')
-        .append({ tag: 'span', text: 'ggg', attr: { class: 'orig' } })
-        .attr('title', 'things')
         .attr('class', null)
-        .find('span')
+        .appendIn($mytag)
         .each(el => el.style.backgroundColor = 'pink');
     });
 

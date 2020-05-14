@@ -1,5 +1,6 @@
 import { ChainSource } from './models';
 import { ChainedQuery } from './chained-query';
+import { SourceMapper } from './source-mapper';
 
 export function ready(func: () => void, doc?: Document): void {
   doc = doc || document;
@@ -8,8 +9,9 @@ export function ready(func: () => void, doc?: Document): void {
   });
 };
 
+const mapper = new SourceMapper();
 export function q(...input: ChainSource[]): ChainedQuery {
-  return new ChainedQuery(...input);
+  return new ChainedQuery(mapper, ...input);
 }
 
 // TODO: Move throttle and debounce to chained-query...

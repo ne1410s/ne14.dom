@@ -1,3 +1,9 @@
+import { ChainedQuery } from './chained-query';
+
+export interface ISourceMapper {
+  Map(sources: ChainSource[]): Chainable[];
+}
+
 export interface QuickParam {
   tag: string;
   text?: string;
@@ -6,4 +12,4 @@ export interface QuickParam {
 }
 
 export type Chainable = ParentNode | EventTarget;
-export type ChainSource = string | QuickParam | Chainable;
+export type ChainSource = string | QuickParam | Chainable | ChainedQuery;

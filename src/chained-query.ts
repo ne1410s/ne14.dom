@@ -1,12 +1,11 @@
-import { Chainable, ChainSource } from './models';
-import { SourceMapper } from './source-mapper';
+import { Chainable, ChainSource, ISourceMapper } from './models';
 
 export class ChainedQuery {
 
   private static readonly WHITESPACE_RGX = /\s+/;
 
   private _items: Chainable[] = [];
-  
+
   private get targets(): EventTarget[] {
     return this._items
       .filter(it => it instanceof EventTarget)
@@ -33,14 +32,17 @@ export class ChainedQuery {
 
   get length() { return this._items.length; }
 
-  constructor(...sources: ChainSource[]) {
+  constructor(
+      private readonly mapper: ISourceMapper,
+      ...sources: ChainSource[]) {
+
     this.add(...sources);
   }
 
   get = (index: number) => this._items[index];
 
   add(...sources: ChainSource[]): ChainedQuery {    
-    this._items.push(...SourceMapper.Map(sources));
+    this._items.push(...this.mapper.Map(sources));
     return this;
   }
 
@@ -95,7 +97,7 @@ export class ChainedQuery {
   }
 
   remove(): ChainedQuery {
-    return new ChainedQuery(...this._items.filter(it => {
+    return new ChainedQuery(this.mapper, ...this._items.filter(it => {
       const handle = it instanceof Node;
       if (handle) (it as Node).parentNode.removeChild(it as Node);
       return !handle;
@@ -109,21 +111,21 @@ export class ChainedQuery {
     return this;
   }
   appendIn(...sources: ChainSource[]): ChainedQuery {
-    return new ChainedQuery(...this.containers.reduce((acc, parent) => {
-      const nodes = new ChainedQuery(...sources).nodes;
+    return new ChainedQuery(this.mapper, ...this.containers.reduce((acc, parent) => {
+      const nodes = new ChainedQuery(this.mapper, ...sources).nodes;
       parent.append(...nodes);
       acc.push(...nodes);
       return acc;
     }, [] as Node[]));
   }
   find(selector: string): ChainedQuery {
-    return new ChainedQuery(...this.containers.reduce((acc, parent) => {
+    return new ChainedQuery(this.mapper, ...this.containers.reduce((acc, parent) => {
       acc.push(...Array.from(parent.querySelectorAll(selector)));
       return acc;
     }, [] as Chainable[]));
   }
   first(selector: string): ChainedQuery {
-    return new ChainedQuery(...this.containers
+    return new ChainedQuery(this.mapper, ...this.containers
       .map(parent => parent.querySelector(selector))
       .filter(found => !!found));
   }

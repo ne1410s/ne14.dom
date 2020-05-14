@@ -1,19 +1,21 @@
-import { ChainSource, Chainable, QuickParam } from './models';
+import { ChainSource, Chainable, QuickParam, ISourceMapper } from './models';
+import { ChainedQuery } from './chained-query';
 
-export class SourceMapper {
+export class SourceMapper implements ISourceMapper {
   
   private static readonly NAIVE_HTML_RGX = /^<.*>$/m;
 
-  static Map(sources: ChainSource[]): Chainable[] {
+  Map(sources: ChainSource[]): Chainable[] {
     return sources.reduce((acc, item) => {
       if (typeof item === 'string') {
-        acc.push(...this.NAIVE_HTML_RGX.test(item) 
-          ? this.MapHTML(item)
-          : this.MapSelector(item));
+        acc.push(...SourceMapper.NAIVE_HTML_RGX.test(item) 
+          ? SourceMapper.MapHTML(item)
+          : SourceMapper.MapSelector(item));
       }
-      else if ((item as QuickParam).tag) acc.push(this.MapParam(item as QuickParam));
+      else if ((item as QuickParam).tag) acc.push(SourceMapper.MapParam(item as QuickParam));
       else if (item instanceof Node) acc.push(item);
       else if (item instanceof EventTarget) acc.push(item);
+      else if (item instanceof ChainedQuery) item.each(i => acc.push(i));
       else console.warn('Unrecognised item:', item);
       return acc;
     }, [] as Chainable[]);
