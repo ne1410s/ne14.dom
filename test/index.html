@@ -15,7 +15,8 @@
       ne_dom
         .q('body')
         .find('p')
-        .attr('class', null)
+        .toggle('dark', elem => elem.textContent.startsWith('G'))
+        .toggle('cream', true)
         .appendIn($mytag)
         .each(el => el.style.backgroundColor = 'pink');
     });

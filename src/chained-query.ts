@@ -86,6 +86,14 @@ export class ChainedQuery {
     });
     return this;
   }
+
+  toggle(className: string, doSet: boolean | ((elem: Element) => boolean)) {
+    this.elements.forEach(elem => {
+      const force = typeof doSet === 'function' ? doSet(elem) : !!doSet;
+      elem.classList.toggle(className, force);
+    });
+    return this;
+  }
   //#endregion
 
   //#region Nodes
