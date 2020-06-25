@@ -1,34 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <title>Test</title>
+    <script src="../dist/ne14_dom.umd.min.js"></script>
+    <script>
+      (function () {
+        ne_dom.ready(() => {
+          const $mytag = ne_dom.q({ tag: 'span', text: 'ggg' }).attr('title', 'things');
 
-<head>
-  <title>Test</title>
-  <script src="../dist/ne14_dom.umd.min.js"></script>
-  <script>(function () {
+          ne_dom
+            .q('body')
+            .find('p')
+            .toggle('dark', (elem) => elem.textContent.startsWith('G'))
+            .toggle('cream', true)
+            .appendIn($mytag)
+            .each((el) => (el.style.backgroundColor = 'pink'));
+        });
+      })();
+    </script>
+  </head>
 
-    ne_dom.ready(() => {
-
-      const $mytag = ne_dom
-        .q({ tag: 'span', text: 'ggg' })
-        .attr('title', 'things');
-
-      ne_dom
-        .q('body')
-        .find('p')
-        .toggle('dark', elem => elem.textContent.startsWith('G'))
-        .toggle('cream', true)
-        .appendIn($mytag)
-        .each(el => el.style.backgroundColor = 'pink');
-    });
-
-  })();</script>
-
-</head>
-
-<body>
-  <h1>Tests</h1>
-  <p>Greetings</p>
-  <p>Chapter 2</p>
-</body>
-
+  <body>
+    <h1>Tests</h1>
+    <p>Greetings</p>
+    <p>Chapter 2</p>
+  </body>
 </html>

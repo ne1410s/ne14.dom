@@ -7,9 +7,7 @@ export default {
   output: {
     name: pkg.displayName,
     file: pkg.browser,
-    format: 'umd'
+    format: 'umd',
   },
-  plugins: [
-    typescript()
-  ]
+  plugins: [typescript()],
 };

@@ -7,7 +7,7 @@ export function ready(func: () => void, doc?: Document): void {
   doc.addEventListener('readystatechange', () => {
     if (doc.readyState === 'interactive') func();
   });
-};
+}
 
 const mapper = new SourceMapper();
 export function q(...input: ChainSource[]): ChainedQuery {
@@ -25,7 +25,7 @@ export function q(...input: ChainSource[]): ChainedQuery {
 //       if (active == null) func.call(this, args);
 //       active = true;
 //       const that = this;
-//       setTimeout(() => { 
+//       setTimeout(() => {
 //         active = !!func.call(that, args);
 //         setTimeout(() => active = active || null, delay / 10);
 //       }, delay);
