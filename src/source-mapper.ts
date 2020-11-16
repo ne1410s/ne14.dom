@@ -2,7 +2,7 @@ import { ChainSource, Chainable, QuickParam, ISourceMapper } from './models';
 import { ChainedQuery } from './chained-query';
 
 export class SourceMapper implements ISourceMapper {
-  private static readonly NAIVE_HTML_RGX = /^<.*>$/m;
+  private static readonly NAIVE_HTML_RGX = /^\s*<.*>\s*$/m;
 
   Map(sources: ChainSource[]): Chainable[] {
     return sources.reduce((acc, item) => {
